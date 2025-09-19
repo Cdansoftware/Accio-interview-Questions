@@ -188,7 +188,117 @@
 // }
 
 // ====================================================================================================================
-// Q.8 
+// Q.8 “Design a React component that displays a list of items, where each item has a title, description, and an optional image. The component should receive an array of items as a prop and render a list of items with their corresponding details. The image should be displayed only if it is present for the item. How would you approach designing and implementing this component, considering reusability and maintainability?”
+
+// import React from "react";
+// import PropTypes from "prop-types";
+
+// // Child Component: ItemCard
+// const ItemCard = ({ title, description, image }) => {
+//   return (
+//     <div className="item-card">
+//       {image && <img src={image} alt={title} className="item-image" />}
+//       <h3 className="item-title">{title}</h3>
+//       <p className="item-description">{description}</p>
+//     </div>
+//   );
+// };
+
+// ItemCard.propTypes = {
+//   title: PropTypes.string.isRequired,
+//   description: PropTypes.string.isRequired,
+//   image: PropTypes.string,
+// };
+
+// // Parent Component: ItemList
+// const ItemList = ({ items }) => {
+//   return (
+//     <div className="item-list">
+//       {items.map((item) => (
+//         <ItemCard
+//           key={item.id}
+//           title={item.title}
+//           description={item.description}
+//           image={item.image}
+//         />
+//       ))}
+//     </div>
+//   );
+// };
+
+// ItemList.propTypes = {
+//   items: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+//       title: PropTypes.string.isRequired,
+//       description: PropTypes.string.isRequired,
+//       image: PropTypes.string,
+//     })
+//   ).isRequired,
+// };
+
+// export default ItemList;
+
+// ===================================================================================================================
+
+// Q.9 Design a strategy to handle concurrent API calls in a React application using asynchronous JavaScript. Assume you have a component that fetches data from three different APIs and renders the combined result. How would you ensure that the component re-renders only when all API calls are completed and the data is available? Consider the performance implications of your approach.
+
+// Answer:
+// To handle concurrent API calls efficiently, I would use Promise.all in combination with React’s useEffect and useState hooks. This ensures that all API calls are executed in parallel (not sequentially), and the component only updates once when all data is available.
+
+// Approach:
+// Initiate API calls concurrently instead of sequentially.
+// Use Promise.all([api1(), api2(), api3()]) to wait until all promises resolve.
+// Store the combined result in a state variable.
+// Trigger a single re-render only after all data is available.
+// Handle errors gracefully (using try/catch or Promise.allSettled).
+// For performance, concurrent fetching reduces total wait time compared to sequential calls.
+
+// import React, { useEffect, useState } from "react";
+
+// const DataFetcher = () => {
+//   const [data, setData] = useState(null);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const [res1, res2, res3] = await Promise.all([
+//           fetch("https://api.example.com/data1").then(r => r.json()),
+//           fetch("https://api.example.com/data2").then(r => r.json()),
+//           fetch("https://api.example.com/data3").then(r => r.json())
+//         ]);
+        
+//         setData({ res1, res2, res3 }); // store combined result
+//       } catch (err) {
+//         setError(err.message);
+//       } finally {
+//         setLoading(false); // re-render only once
+//       }
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   if (loading) return <p>Loading...</p>;
+//   if (error) return <p>Error: {error}</p>;
+
+//   return (
+//     <div>
+//       <h2>Combined Data</h2>
+//       <pre>{JSON.stringify(data, null, 2)}</pre>
+//     </div>
+//   );
+// };
+
+// export default DataFetcher;
+
+// ===================================================================================================================
+
+// Q.10 
+
+
 
 
 
